@@ -1,5 +1,7 @@
 import pygame
 import os
+from random import randrange
+from сapture import fishing
 
 
 def background():  # отрисовывание поля
@@ -34,26 +36,24 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    if pos_x > 10:
-                        pos_x = pos_x - 70
-                        background()
-                        screen.blit(image, (pos_x, pos_y))
-                if event.key == pygame.K_RIGHT:
-                    if pos_x < 640:
-                        pos_x = pos_x + 70
-                        background()
-                        screen.blit(image, (pos_x, pos_y))
-                if event.key == pygame.K_UP:
-                    if pos_y > 20:
-                        pos_y = pos_y - 70
-                        background()
-                        screen.blit(image, (pos_x, pos_y))
-                if event.key == pygame.K_DOWN:
-                    if pos_y < 510:
-                        pos_y = pos_y + 70
-                        background()
-                        screen.blit(image, (pos_x, pos_y))
+                if event.key == pygame.K_LEFT and pos_x > 10:
+                    pos_x -= 70
+                    background()
+                    screen.blit(image, (pos_x, pos_y))
+                if event.key == pygame.K_RIGHT and pos_x < 640:
+                    pos_x += 70
+                    background()
+                    screen.blit(image, (pos_x, pos_y))
+                if event.key == pygame.K_UP and pos_y > 20:
+                    pos_y -= 70
+                    background()
+                    screen.blit(image, (pos_x, pos_y))
+                if event.key == pygame.K_DOWN and pos_y < 510:
+                    pos_y += 70
+                    background()
+                    screen.blit(image, (pos_x, pos_y))
+                if randrange(100) < 15:  # есть покемон или нет
+                    fishing("Kanto")
         pygame.display.flip()
     while pygame.event.wait().type != pygame.QUIT:
         pass
