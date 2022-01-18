@@ -2,11 +2,13 @@ import binascii
 import pygame
 import os
 from random import randrange
+
+
 # from сapture import fishing
 
 
 def background(region):  # отрисовывание поля
-    size = width, height = 1000, 750
+    size = 900, 600
     screen = pygame.display.set_mode(size)
     screen.fill((204, 204, 204))
     screen.fill((255, 204, 0), pygame.Rect(10, 20, 700, 560))
@@ -36,7 +38,7 @@ def background(region):  # отрисовывание поля
 def hello():
     pygame.init()
     pygame.display.set_caption('Pokemon Yellow')
-    size = width, height = 1000, 750
+    size = 900, 600
     screen = pygame.display.set_mode(size)
     screen.fill((204, 204, 204))
     intro_text = ["      ВЫБЕРИТЕ РЕГИОН", "",
@@ -46,38 +48,33 @@ def hello():
     screen.blit(image, (10, 200))
     screen.blit(image, (10, 290))
     screen.blit(image, (10, 380))
-    font = pygame.font.Font(None, 110)
+    font = pygame.font.Font(None, 90)
     text_coord = 50
     for line in intro_text:
-        string_rendered = font.render(
-            line, 1, (0, 0, 255))
+        string_rendered = font.render(line, True, (0, 0, 255))
         intro_rect = string_rendered.get_rect()
         text_coord += 10
         intro_rect.top = text_coord
         intro_rect.x = 10
-        text_coord += intro_rect.height
+        text_coord += intro_rect.height + 5
         screen.blit(string_rendered, intro_rect)
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if (
-                event.type == pygame.MOUSEBUTTONDOWN
-                and list(event.pos)[0] >= 10
-                and list(event.pos)[0] <= 90
-            ):
-                if list(event.pos)[1] >= 200 and list(event.pos)[1] <= 280:
+            if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90:
+                if 200 <= list(event.pos)[1] <= 280:
                     basic("kanto")
-                elif list(event.pos)[1] >= 290 and list(event.pos)[1] <= 370:
+                elif 290 <= list(event.pos)[1] <= 370:
                     basic("johto")
-                elif list(event.pos)[1] >= 380 and list(event.pos)[1] <= 460:
+                elif 380 <= list(event.pos)[1] <= 460:
                     basic("hoenn")
             pygame.display.flip()
 
 
 def basic(region):
-    size = width, height = 1000, 750
+    size = 900, 600
     screen = pygame.display.set_mode(size)
     background(region)
 
@@ -113,11 +110,11 @@ def basic(region):
                     # fishing(region)
                     pass
             if (
-                event.type == pygame.MOUSEBUTTONDOWN
-                and list(event.pos)[0] >= 750
-                and list(event.pos)[0] <= 1000
-                and list(event.pos)[1] >= 40
-                and list(event.pos)[1] <= 100
+                    event.type == pygame.MOUSEBUTTONDOWN
+                    and list(event.pos)[0] >= 750
+                    and list(event.pos)[0] <= 1000
+                    and list(event.pos)[1] >= 40
+                    and list(event.pos)[1] <= 100
             ):
                 hello()
             pygame.display.flip()

@@ -45,4 +45,5 @@ def fishing(region):
         pass
     pygame.quit()
 
+
 fishing("Kanto")
