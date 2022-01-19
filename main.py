@@ -3,12 +3,11 @@ import pygame
 import os
 from random import randrange
 
-
-# from сapture import fishing
+from capture import catch
 
 
 def background(region):  # отрисовывание поля
-    size = 900, 600
+    size = 1000, 600
     screen = pygame.display.set_mode(size)
     screen.fill((204, 204, 204))
     screen.fill((255, 204, 0), pygame.Rect(10, 20, 700, 560))
@@ -106,22 +105,17 @@ def basic(region):
                     pos_y += 70
                     background(region)
                     screen.blit(image, (pos_x, pos_y))
-                if randrange(100) < 15:  # есть покемон или нет
-                    # fishing(region)
-                    pass
-            if (
-                    event.type == pygame.MOUSEBUTTONDOWN
-                    and list(event.pos)[0] >= 750
-                    and list(event.pos)[0] <= 1000
-                    and list(event.pos)[1] >= 40
-                    and list(event.pos)[1] <= 100
-            ):
+                if randrange(100) < 90:# есть покемон или нет
+                    print("fish")
+                    catch(region)
+            if event.type == pygame.MOUSEBUTTONDOWN and 750 <= list(event.pos)[0] <= 1000 and \
+                    40 <= list(event.pos)[1] <= 100:
                 hello()
             pygame.display.flip()
 
 
 if __name__ == '__main__':
-    r = hello()
+    hello()
     while pygame.event.wait().type != pygame.QUIT:
         pass
     pygame.quit()

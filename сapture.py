@@ -1,1 +1,2 @@
-
+def fishing():
+    return None

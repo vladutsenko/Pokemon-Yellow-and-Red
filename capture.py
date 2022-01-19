@@ -3,33 +3,30 @@ import pygame
 from random import randrange, choice
 
 
-def fishing(region):
-    if __name__ != '__main__':
-        return
-
+def catch(region):
+    variants = None
     f = randrange(100)
     if f < 85:
-        type = "ordinary"
+        rarity = "ordinary"
     elif f < 95:
-        type = "legendary"
+        rarity = "legendary"
     else:
-        type = "mythical"
-
+        rarity = "mythical"
     con = sqlite3.connect("Pokemon.db")
     cur = con.cursor()
     if region == "Kanto":
         variants = list(cur.execute(
-            "SELECT name, element FROM Kanto WHERE type == ?", (type, )).fetchall())
+            f"SELECT name, element FROM Kanto WHERE rarity = '{rarity}'").fetchall())
     elif region == "Johto":
         variants = list(cur.execute(
-            "SELECT name, element FROM Johto WHERE type == ?", (type, )).fetchall())
+            f"SELECT name, element FROM Johto WHERE rarity = '{rarity}'").fetchall())
     elif region == "Hoenn":
         variants = list(cur.execute(
-            "SELECT name, element FROM Hoenn WHERE type == ?", (type, )).fetchall())
+            f"SELECT name, element FROM Hoenn WHERE rarity = '{rarity}'").fetchall())
     total = list(choice(variants))
     pygame.init()
     pygame.display.set_caption('Choose your Pokemon')
-    size = width, height = 1000, 750
+    size = 900, 600
     screen = pygame.display.set_mode(size)
     screen.fill((204, 204, 204))
     font = pygame.font.Font(None, 50)
@@ -46,4 +43,4 @@ def fishing(region):
     pygame.quit()
 
 
-fishing("Kanto")
+catch("Kanto")
