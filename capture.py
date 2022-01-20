@@ -41,7 +41,7 @@ def catch(region):
     screen1.blit(text, (40, 60))
     pokemons = cur.execute("SELECT name, element FROM Collection").fetchall()
     image = pygame.image.load("data/pokeball.png")
-    font = pygame.font.Font("data/CORBEL.TTF", 20)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
     font.bold = True
     for i, line in enumerate(pokemons):
         text = font.render(line[0] + "," + line[1], True, (227, 8, 0))
@@ -93,7 +93,7 @@ def battle(pokemon1, pokemon2):
     hp1 = 10000
     hp2 = 10000
     pygame.draw.rect(screen1, (255, 0, 0), (450, 220, 80, 40))
-    font = pygame.font.Font("data/CORBEL.TTF", 20)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
     font.bold = True
     text = font.render("Атака", True, (0, 0, 0))
     screen1.blit(text, (465, 230))
@@ -135,3 +135,4 @@ def battle(pokemon1, pokemon2):
         screen1.blit(text, (460, 325))
     pygame.time.delay(2000)
     pygame.quit()
+    
