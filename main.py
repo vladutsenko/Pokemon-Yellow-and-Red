@@ -24,17 +24,17 @@ def background(region):  # отрисовывание поля
                          (710, 70 * i + 20), width=5)
 
     if region == "kanto":
-        font = pygame.font.Font("data/CORBEL.TTF", 50)
+        font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 50)
         font.bold = True
         text = font.render("Паллет-таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
     elif region == "johto":
-        font = pygame.font.Font("data/CORBEL.TTF", 40)
+        font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 40)
         font.bold = True
         text = font.render("Петалбург-Сити", True, (0, 0, 0))
         screen.blit(text, (750, 40))
     elif region == "hoenn":
-        font = pygame.font.Font("data/CORBEL.TTF", 50)
+        font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 50)
         font.bold = True
         text = font.render("Литлрут-Таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
@@ -42,14 +42,14 @@ def background(region):  # отрисовывание поля
     fullname = os.path.join('data', "backpack.png")
     image = pygame.image.load(fullname)
     screen.blit(image, (870, 100))
-    font = pygame.font.Font("data/CORBEL.TTF", 50)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 50)
     font.bold = True
     con = sqlite3.connect("Pokemon.db")
     cur = con.cursor()
     cath = len(list(cur.execute("SELECT * FROM Collection").fetchall()))
     al = len(list(cur.execute("SELECT * FROM Kanto").fetchall())) + len(list(cur.execute(
         "SELECT * FROM Johto").fetchall())) + len(list(cur.execute("SELECT * FROM Hoenn").fetchall()))
-    font = pygame.font.Font("data/CORBEL.TTF", 35)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 35)
     font.bold = True
     text = font.render("Поймано", True, (0, 0, 0))
     screen.blit(text, (730, 100))
@@ -77,7 +77,7 @@ def hello():
     screen.blit(image, (10, 220))
     screen.blit(image, (10, 295))
     screen.blit(image, (10, 370))
-    font = pygame.font.Font("data/CORBEL.TTF", 60)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 60)
 
     font.bold = True
     text_coord = 50
@@ -154,3 +154,4 @@ if __name__ == '__main__':
     while pygame.event.wait().type != pygame.QUIT:
         pass
     pygame.quit()
+    
