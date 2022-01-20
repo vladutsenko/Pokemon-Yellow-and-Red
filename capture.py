@@ -31,12 +31,10 @@ def catch(region):
     elif region == "Hoenn":
         elements = list(cur.execute(
             f"SELECT name, element FROM Hoenn WHERE rarity = '{rarity}'").fetchall())
-    if not elements:
-        print(rarity)
     total = list(choice(elements))
     screen1.fill((204, 204, 204))
     font = pygame.font.Font(None, 30)
-    text = font.render("Вы встретили нового покемона: " + total[0], True, (0, 0, 0))
+    text = font.render(f"Вы встретили нового покемона: {total[0]} (тип - {total[1]})", True, (0, 0, 0))
     screen1.blit(text, (40, 20))
     text = font.render("Выберите своего покемона:", True, (0, 0, 0))
     screen1.blit(text, (40, 60))
@@ -45,20 +43,20 @@ def catch(region):
     font = pygame.font.Font(None, 30)
     for i, line in enumerate(pokemons):
         text = font.render(line[0] + "," + line[1], True, (0, 0, 255))
-        screen1.blit(text, (100, 110 + 90 * i))
-        screen1.blit(image, (40, 100 + 90 * i))
+        screen1.blit(text, (100, 110 + 50 * i))
+        screen1.blit(image, (40, 100 + 50 * i))
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
                 for i, pokemon in enumerate(pokemons):
-                    if 110 + 90 * i <= y < 200 + 90 * i:
-                        # print(total)
+                    if 110 + 50 * i <= y < 160 + 50 * i and 40 < x < 140:
                         battle(total, pokemon)
                         running = False
+                        break
         if not running:
             break
         pygame.display.flip()
@@ -124,11 +122,10 @@ def battle(pokemon1, pokemon2):
         cur = con.cursor()
         cur.execute(f"INSERT INTO Collection (name, element) VALUES ('{pokemon1[0]}', '{pokemon1[1]}')")
         con.commit()
-        text = font.render("Победа", True, (0, 255, 0))
+        text = font.render("Победа", True, (0, 0, 0))
         screen1.blit(text, (460, 325))
         con.close()
     else:
-        print("lose")
         text = font.render("Поражение", True, (0, 255, 0))
         screen1.blit(text, (460, 325))
     pygame.time.delay(2000)
