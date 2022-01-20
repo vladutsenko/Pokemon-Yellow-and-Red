@@ -2,6 +2,7 @@ import sqlite3
 import pygame
 from random import randrange, choice
 
+
 screen1 = pygame.display.set_mode((680, 400))
 
 
@@ -102,7 +103,7 @@ def battle(pokemon1, pokemon2):
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print("hit")
+                # print("hit")
                 x, y = event.pos
                 if 450 < x < 530 and 220 < y < 260:
                     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
@@ -111,19 +112,24 @@ def battle(pokemon1, pokemon2):
                     pygame.draw.rect(screen1, (204, 204, 204), (490 - dmg1 / hp1 * 90, 90, dmg1 / hp1 * 90, 5))
                     pygame.draw.rect(screen1, (204, 204, 204), (640 - dmg2 / hp2 * 90, 90, dmg2 / hp2 * 90, 5))
                     hp1 -= dmg1
+                    if hp1 <= 0 and hp2:
+                        win = True
+                        running = False
                     hp2 -= dmg2
-                    if hp1 <= 0 or hp2 <= 0:
-                        if hp2:
-                            win = True
+                    if hp1 and hp2 <= 0:
                         running = False
             pygame.display.flip()
     if win:
         con = sqlite3.connect("Pokemon.db")
         cur = con.cursor()
-        cur.execute(f"INSERT INTO Collection VALUES ({pokemon1[0]}, {pokemon1[1]})")
+        cur.execute(f"INSERT INTO Collection (name, element) VALUES ('{pokemon1[0]}', '{pokemon1[1]}')")
+        con.commit()
         text = font.render("Победа", True, (0, 255, 0))
         screen1.blit(text, (460, 325))
+        con.close()
     else:
+        print("lose")
         text = font.render("Поражение", True, (0, 255, 0))
         screen1.blit(text, (460, 325))
+    pygame.time.delay(2000)
     pygame.quit()

@@ -9,6 +9,7 @@ from capture import catch
 
 def background(region):  # отрисовывание поля
     size = 1000, 600
+    pygame.init()
     screen = pygame.display.set_mode(size)
     screen.fill((204, 204, 204))
     screen.fill((255, 204, 0), pygame.Rect(10, 20, 700, 560))
@@ -94,7 +95,7 @@ def hello():
             pygame.display.flip()
 
 
-def basic(region):
+def basic(region, x=10, y=20):
     size = 900, 600
     screen = pygame.display.set_mode(size)
     background(region)
@@ -102,9 +103,9 @@ def basic(region):
     # перемещение героя
     fullname = os.path.join('data', "trainer.png")
     image = pygame.image.load(fullname)
-    screen.blit(image, (10, 20))
-    pos_x = 10
-    pos_y = 20
+    screen.blit(image, (x, y))
+    pos_x = x
+    pos_y = y
     running = True
     while running:
         for event in pygame.event.get():
@@ -129,6 +130,7 @@ def basic(region):
                     screen.blit(image, (pos_x, pos_y))
                 if randrange(100) < 20:  # есть покемон или нет
                     catch(region)
+                    basic(region, pos_x, pos_y)
             if event.type == pygame.MOUSEBUTTONDOWN and 750 <= list(event.pos)[0] <= 1000 and \
                     40 <= list(event.pos)[1] <= 100:
                 hello()
