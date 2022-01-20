@@ -79,8 +79,8 @@ def battle(pokemon1, pokemon2):
     elif pokemon1[1] == "травяной" and pokemon2[1] == "насекомое":
         crit_rate -= 5
         crit_dmg += 50
-    image1 = pygame.image.load(f"data/{pokemon1[0]}")
-    image2 = pygame.image.load(f"data/{pokemon2[0]}")
+    image1 = pygame.image.load(f"data/{pokemon1[0]}.png")
+    image2 = pygame.image.load(f"data/{pokemon2[0]}.png")
     screen1.blit(image1, 300, 100)
     screen1.blit(image2, 450, 100)
     pygame.draw.rect(screen1, (255, 0, 0), (300, 90, 90, 5))
