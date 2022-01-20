@@ -4,7 +4,7 @@ import sqlite3
 from random import randrange
 
 from capture import catch
-from backpack import which
+# from backpack import which
 
 
 def background(region):  # отрисовывание поля
@@ -40,9 +40,9 @@ def background(region):  # отрисовывание поля
     font = pygame.font.Font(None, 50)
     con = sqlite3.connect("Pokemon.db")
     cur = con.cursor()
-    cath = len(list(cur.execute(f"SELECT * FROM Caught").fetchall()))
-    al = len(list(cur.execute(f"SELECT * FROM Kanto").fetchall())) + len(list(cur.execute(
-        f"SELECT * FROM Johto").fetchall())) + len(list(cur.execute(f"SELECT * FROM Hoenn").fetchall()))
+    cath = len(list(cur.execute("SELECT * FROM Collection").fetchall()))
+    al = len(list(cur.execute("SELECT * FROM Kanto").fetchall())) + len(list(cur.execute(
+        "SELECT * FROM Johto").fetchall())) + len(list(cur.execute("SELECT * FROM Hoenn").fetchall()))
     font = pygame.font.Font(None, 35)
     text = font.render("Поймано", True, (0, 0, 0))
     screen.blit(text, (730, 100))
@@ -69,7 +69,7 @@ def hello():
     screen.blit(image, (10, 220))
     screen.blit(image, (10, 295))
     screen.blit(image, (10, 370))
-    font = pygame.font.Font(None, 100)
+    font = pygame.font.Font(None, 90)
     text_coord = 50
     for line in intro_text:
         string_rendered = font.render(line, True, (0, 0, 255))
@@ -134,8 +134,9 @@ def basic(region):
                 hello()
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     100 <= list(event.pos)[1] <= 260:
-                which()
-            pygame.display.flip()
+                pass
+                # which()
+        pygame.display.flip()
 
 
 if __name__ == '__main__':

@@ -2,14 +2,15 @@ import sqlite3
 import pygame
 from random import randrange, choice
 
-size = 600, 600
-screen1 = pygame.display.set_mode(size)
-pygame.init()
-pygame.display.set_caption('Choose your Pokemon')
+screen1 = pygame.display.set_mode((680, 400))
 
 
 def catch(region):
     global screen1
+    pygame.display.set_caption('Catch the Pokemon!')
+    screen1 = pygame.display.set_mode((680, 400))
+    pygame.init()
+
     elements = []
     f = randrange(100)
     if f < 85:
@@ -54,9 +55,12 @@ def catch(region):
                 x, y = event.pos
                 for i, pokemon in enumerate(pokemons):
                     if 110 + 90 * i <= y < 200 + 90 * i:
-                        print(total)
+                        # print(total)
                         battle(total, pokemon)
-            pygame.display.flip()
+                        running = False
+        if not running:
+            break
+        pygame.display.flip()
     pygame.quit()
 
 
@@ -81,30 +85,31 @@ def battle(pokemon1, pokemon2):
         crit_dmg += 50
     image1 = pygame.image.load(f"data/{pokemon1[0]}.png")
     image2 = pygame.image.load(f"data/{pokemon2[0]}.png")
-    screen1.blit(image1, 300, 100)
-    screen1.blit(image2, 450, 100)
-    pygame.draw.rect(screen1, (255, 0, 0), (300, 90, 90, 5))
-    pygame.draw.rect(screen1, (255, 0, 0), (450, 90, 90, 5))
+    screen1.blit(image1, (400, 100))
+    screen1.blit(image2, (550, 100))
+    pygame.draw.rect(screen1, (255, 0, 0), (400, 90, 90, 5))
+    pygame.draw.rect(screen1, (255, 0, 0), (550, 90, 90, 5))
     hp1 = 10000
     hp2 = 10000
-    pygame.draw.rect(screen1, (255, 0, 0), (350, 220, 50, 20))
-    font = pygame.font.Font(None, 10)
+    pygame.draw.rect(screen1, (255, 0, 0), (450, 220, 80, 40))
+    font = pygame.font.Font(None, 30)
     text = font.render("Атака", True, (0, 0, 0))
-    screen1.blit(text, (360, 225))
+    screen1.blit(text, (465, 230))
     running = True
     win = False
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print("hit")
                 x, y = event.pos
-                if 220 < y < 240:
-                    dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg) / 100) \
-                           * (1 + bonus_dmg) / 100
+                if 450 < x < 530 and 220 < y < 260:
+                    dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
+                           * (1 + bonus_dmg / 100)
                     dmg2 = 1000
-                    pygame.draw.rect(screen1, (204, 204, 204), (390 - dmg1 / hp1 * 90, 90, dmg1 / hp1 * 90, 5))
-                    pygame.draw.rect(screen1, (255, 204, 204), (450 - dmg2 / hp2 * 90, 90, dmg2 / hp2 * 90, 5))
+                    pygame.draw.rect(screen1, (204, 204, 204), (490 - dmg1 / hp1 * 90, 90, dmg1 / hp1 * 90, 5))
+                    pygame.draw.rect(screen1, (204, 204, 204), (640 - dmg2 / hp2 * 90, 90, dmg2 / hp2 * 90, 5))
                     hp1 -= dmg1
                     hp2 -= dmg2
                     if hp1 <= 0 or hp2 <= 0:
@@ -117,8 +122,8 @@ def battle(pokemon1, pokemon2):
         cur = con.cursor()
         cur.execute(f"INSERT INTO Collection VALUES ({pokemon1[0]}, {pokemon1[1]})")
         text = font.render("Победа", True, (0, 255, 0))
-        screen1.blit(text, (360, 325))
+        screen1.blit(text, (460, 325))
     else:
         text = font.render("Поражение", True, (0, 255, 0))
-        screen1.blit(text, (360, 325))
+        screen1.blit(text, (460, 325))
     pygame.quit()
