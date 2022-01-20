@@ -12,28 +12,21 @@ def catch(region):
     pygame.init()
 
     elements = []
-    f = randrange(100)
-    if f < 85:
-        rarity = "стандартный"
-    elif f < 95:
-        rarity = "легендарный"
-    else:
-        rarity = "мифический"
     con = sqlite3.connect("Pokemon.db")
     cur = con.cursor()
     if region == "Kanto":
         elements = list(cur.execute(
-            f"SELECT name, element FROM Kanto WHERE rarity = '{rarity}'").fetchall())
+            f"SELECT name, element FROM Kanto WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
     elif region == "Johto":
         elements = list(cur.execute(
-            f"SELECT name, element FROM Johto WHERE rarity = '{rarity}'").fetchall())
+            f"SELECT name, element FROM Johto WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
     elif region == "Hoenn":
         elements = list(cur.execute(
-            f"SELECT name, element FROM Hoenn WHERE rarity = '{rarity}'").fetchall())
+            f"SELECT name, element FROM Hoenn WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
     total = list(choice(elements))
     bg = pygame.image.load("data/battle-background.png")
     screen1.blit(bg, (0, 0))
-    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
+    font = pygame.font.Font("data/corbell.ttf", 20)
     font.bold = True
     text = font.render(f"Вы встретили нового покемона: {total[0]} (тип - {total[1]})", True, (227, 8, 0))
     screen1.blit(text, (40, 20))
@@ -41,7 +34,7 @@ def catch(region):
     screen1.blit(text, (40, 60))
     pokemons = cur.execute("SELECT name, element FROM Collection").fetchall()
     image = pygame.image.load("data/pokeball.png")
-    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
+    font = pygame.font.Font("data/corbell.ttf", 20)
     font.bold = True
     for i, line in enumerate(pokemons):
         text = font.render(line[0] + "," + line[1], True, (227, 8, 0))
@@ -93,7 +86,7 @@ def battle(pokemon1, pokemon2):
     hp1 = 10000
     hp2 = 10000
     pygame.draw.rect(screen1, (255, 0, 0), (450, 220, 80, 40))
-    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
+    font = pygame.font.Font("data/corbell.ttf", 20)
     font.bold = True
     text = font.render("Атака", True, (0, 0, 0))
     screen1.blit(text, (465, 230))
