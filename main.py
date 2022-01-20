@@ -65,10 +65,10 @@ def hello():
     intro_text = ["      ВЫБЕРИТЕ РЕГИОН", "",
                   "      Канто", "      Джото", "      Хоенн"]
     fullname = os.path.join('data', "pokeball.png")
-    image = pygame.image.load(fullname)
-    screen.blit(image, (10, 200))
-    screen.blit(image, (10, 290))
-    screen.blit(image, (10, 380))
+    image = pygame.image.load("data/pokeball.png")
+    screen.blit(image, (10, 220))
+    screen.blit(image, (10, 295))
+    screen.blit(image, (10, 370))
     font = pygame.font.Font(None, 100)
     text_coord = 50
     for line in intro_text:
@@ -86,11 +86,11 @@ def hello():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90:
                 if 200 <= list(event.pos)[1] <= 280:
-                    basic("kanto")
+                    basic("Kanto")
                 elif 290 <= list(event.pos)[1] <= 370:
-                    basic("johto")
+                    basic("Johto")
                 elif 380 <= list(event.pos)[1] <= 460:
-                    basic("hoenn")
+                    basic("Hoenn")
             pygame.display.flip()
 
 
@@ -98,7 +98,7 @@ def basic(region):
     size = 900, 600
     screen = pygame.display.set_mode(size)
     background(region)
-
+    pygame.init()
     # перемещение героя
     fullname = os.path.join('data', "trainer.png")
     image = pygame.image.load(fullname)
