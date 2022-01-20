@@ -7,6 +7,7 @@ from capture import catch
 from backpack import display
 from help import info
 
+
 class Field:
     def __init__(self, n, m):
         self.rows = n
@@ -48,18 +49,18 @@ def background(region):
     screen.blit(bg, (0, 0))
 
     field.render(screen)
-    if region == "kanto":
-        font = pygame.font.Font("data/corbell.ttf", 50)
+    if region == "Kanto":
+        font = pygame.font.Font("data/corbell.ttf", 35)
         font.bold = True
         text = font.render("Паллет-таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
-    elif region == "johto":
-        font = pygame.font.Font("data/corbell.ttf", 40)
+    elif region == "Johto":
+        font = pygame.font.Font("data/corbell.ttf", 25)
         font.bold = True
         text = font.render("Петалбург-Сити", True, (0, 0, 0))
         screen.blit(text, (750, 40))
-    elif region == "hoenn":
-        font = pygame.font.Font("data/corbell.ttf", 50)
+    elif region == "Hoenn":
+        font = pygame.font.Font("data/corbell.ttf", 35)
         font.bold = True
         text = font.render("Литлрут-Таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
@@ -83,7 +84,7 @@ def background(region):
     screen.blit(text, (730, 135))
     text = font.render("      из", True, (0, 0, 0))
     screen.blit(text, (730, 170))
-    text = font.render(f"       {al}", True, (0, 0, 0))
+    text = font.render(f"      {al}", True, (0, 0, 0))
     screen.blit(text, (730, 205))
     text = font.render("покемонов", True, (0, 0, 0))
     screen.blit(text, (730, 240))
@@ -196,4 +197,3 @@ if __name__ == '__main__':
     while pygame.event.wait().type != pygame.QUIT:
         pass
     pygame.quit()
-    
