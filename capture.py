@@ -16,22 +16,24 @@ def catch(region):
     cur = con.cursor()
     if region == "Kanto":
         elements = list(cur.execute(
-            f"SELECT name, element FROM Kanto WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
+            f"SELECT name, element, rarity FROM Kanto WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
     elif region == "Johto":
         elements = list(cur.execute(
-            f"SELECT name, element FROM Johto WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
+            f"SELECT name, element, rarity FROM Johto WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
     elif region == "Hoenn":
         elements = list(cur.execute(
-            f"SELECT name, element FROM Hoenn WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
-    total = list(choice(elements))
+            f"SELECT name, element, rarity FROM Hoenn WHERE name NOT IN (SELECT name FROM Collection)").fetchall())
+    pokemon = list(choice(elements))
     bg = pygame.image.load("data/battle-background.png")
     screen1.blit(bg, (0, 0))
     font = pygame.font.Font("data/corbell.ttf", 20)
     font.bold = True
-    text = font.render(f"Вы встретили нового покемона: {total[0]} (тип - {total[1]})", True, (227, 8, 0))
+    text = font.render(f"Вы встретили {pokemon[2][:-2]}ого покемона: ", True, (227, 8, 0))
     screen1.blit(text, (40, 20))
+    text = font.render(f"{pokemon[0]} ({pokemon[1]})", True, (227, 8, 0))
+    screen1.blit(text, (40, 40))
     text = font.render("Выберите своего покемона:", True, (227, 8, 0))
-    screen1.blit(text, (40, 60))
+    screen1.blit(text, (40, 70))
     pokemons = cur.execute("SELECT name, element FROM Collection").fetchall()
     image = pygame.image.load("data/pokeball.png")
     font = pygame.font.Font("data/corbell.ttf", 20)
@@ -47,9 +49,9 @@ def catch(region):
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
-                for i, pokemon in enumerate(pokemons):
+                for i, p in enumerate(pokemons):
                     if 110 + 50 * i <= y < 160 + 50 * i and 40 < x < 140:
-                        battle(total, pokemon)
+                        battle(pokemon, p)
                         running = False
                         break
         if not running:
