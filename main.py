@@ -1,9 +1,10 @@
-import binascii
 import pygame
 import os
+import sqlite3
 from random import randrange
 
 from capture import catch
+from backpack import which
 
 
 def background(region):  # отрисовывание поля
@@ -33,6 +34,27 @@ def background(region):  # отрисовывание поля
         text = font.render("Литлрут-Таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
 
+    fullname = os.path.join('data', "backpack.png")
+    image = pygame.image.load(fullname)
+    screen.blit(image, (870, 100))
+    font = pygame.font.Font(None, 50)
+    con = sqlite3.connect("Pokemon.db")
+    cur = con.cursor()
+    cath = len(list(cur.execute(f"SELECT * FROM Caught").fetchall()))
+    al = len(list(cur.execute(f"SELECT * FROM Kanto").fetchall())) + len(list(cur.execute(
+        f"SELECT * FROM Johto").fetchall())) + len(list(cur.execute(f"SELECT * FROM Hoenn").fetchall()))
+    font = pygame.font.Font(None, 35)
+    text = font.render("Поймано", True, (0, 0, 0))
+    screen.blit(text, (730, 100))
+    text = font.render(f"       {cath}", True, (0, 0, 0))
+    screen.blit(text, (730, 135))
+    text = font.render("      из", True, (0, 0, 0))
+    screen.blit(text, (730, 170))
+    text = font.render(f"       {al}", True, (0, 0, 0))
+    screen.blit(text, (730, 205))
+    text = font.render("покемонов", True, (0, 0, 0))
+    screen.blit(text, (730, 240))
+
 
 def hello():
     pygame.init()
@@ -43,11 +65,11 @@ def hello():
     intro_text = ["      ВЫБЕРИТЕ РЕГИОН", "",
                   "      Канто", "      Джото", "      Хоенн"]
     fullname = os.path.join('data', "pokeball.png")
-    image = pygame.image.load("data/pokeball.png")
-    screen.blit(image, (10, 220))
-    screen.blit(image, (10, 295))
-    screen.blit(image, (10, 370))
-    font = pygame.font.Font(None, 90)
+    image = pygame.image.load(fullname)
+    screen.blit(image, (10, 200))
+    screen.blit(image, (10, 290))
+    screen.blit(image, (10, 380))
+    font = pygame.font.Font(None, 100)
     text_coord = 50
     for line in intro_text:
         string_rendered = font.render(line, True, (0, 0, 255))
@@ -64,11 +86,11 @@ def hello():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90:
                 if 200 <= list(event.pos)[1] <= 280:
-                    basic("Kanto")
+                    basic("kanto")
                 elif 290 <= list(event.pos)[1] <= 370:
-                    basic("Johto")
+                    basic("johto")
                 elif 380 <= list(event.pos)[1] <= 460:
-                    basic("Hoenn")
+                    basic("hoenn")
             pygame.display.flip()
 
 
@@ -76,7 +98,7 @@ def basic(region):
     size = 900, 600
     screen = pygame.display.set_mode(size)
     background(region)
-    pygame.init()
+
     # перемещение героя
     fullname = os.path.join('data', "trainer.png")
     image = pygame.image.load(fullname)
@@ -105,11 +127,14 @@ def basic(region):
                     pos_y += 70
                     background(region)
                     screen.blit(image, (pos_x, pos_y))
-                if randrange(100) < 15:# есть покемон или нет
+                if randrange(100) < 20:  # есть покемон или нет
                     catch(region)
             if event.type == pygame.MOUSEBUTTONDOWN and 750 <= list(event.pos)[0] <= 1000 and \
                     40 <= list(event.pos)[1] <= 100:
                 hello()
+            elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
+                    100 <= list(event.pos)[1] <= 260:
+                which()
             pygame.display.flip()
 
 
