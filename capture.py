@@ -2,7 +2,6 @@ import sqlite3
 import pygame
 from random import randrange, choice
 
-
 screen1 = pygame.display.set_mode((680, 400))
 
 
@@ -32,17 +31,20 @@ def catch(region):
         elements = list(cur.execute(
             f"SELECT name, element FROM Hoenn WHERE rarity = '{rarity}'").fetchall())
     total = list(choice(elements))
-    screen1.fill((204, 204, 204))
-    font = pygame.font.Font(None, 30)
-    text = font.render(f"Вы встретили нового покемона: {total[0]} (тип - {total[1]})", True, (0, 0, 0))
+    bg = pygame.image.load("data/battle-background.png")
+    screen1.blit(bg, (0, 0))
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
+    font.bold = True
+    text = font.render(f"Вы встретили нового покемона: {total[0]} (тип - {total[1]})", True, (227, 8, 0))
     screen1.blit(text, (40, 20))
-    text = font.render("Выберите своего покемона:", True, (0, 0, 0))
+    text = font.render("Выберите своего покемона:", True, (227, 8, 0))
     screen1.blit(text, (40, 60))
     pokemons = cur.execute("SELECT name, element FROM Collection").fetchall()
     image = pygame.image.load("data/pokeball.png")
-    font = pygame.font.Font(None, 30)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
+    font.bold = True
     for i, line in enumerate(pokemons):
-        text = font.render(line[0] + "," + line[1], True, (0, 0, 255))
+        text = font.render(line[0] + "," + line[1], True, (227, 8, 0))
         screen1.blit(text, (100, 110 + 50 * i))
         screen1.blit(image, (40, 100 + 50 * i))
     running = True
@@ -91,7 +93,8 @@ def battle(pokemon1, pokemon2):
     hp1 = 10000
     hp2 = 10000
     pygame.draw.rect(screen1, (255, 0, 0), (450, 220, 80, 40))
-    font = pygame.font.Font(None, 30)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 20)
+    font.bold = True
     text = font.render("Атака", True, (0, 0, 0))
     screen1.blit(text, (465, 230))
     running = True
@@ -107,8 +110,10 @@ def battle(pokemon1, pokemon2):
                     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
                            * (1 + bonus_dmg / 100)
                     dmg2 = 1000
-                    pygame.draw.rect(screen1, (204, 204, 204), (490 - dmg1 / hp1 * 90, 90, dmg1 / hp1 * 90, 5))
-                    pygame.draw.rect(screen1, (204, 204, 204), (640 - dmg2 / hp2 * 90, 90, dmg2 / hp2 * 90, 5))
+                    pygame.draw.rect(screen1, (92, 215, 90),
+                                     (490 - min(90.0, dmg1 / hp1 * 90), 90, min(90.0, dmg1 / hp1 * 90), 5))
+                    pygame.draw.rect(screen1, (92, 215, 90),
+                                     (640 - min(90.0, dmg2 / hp2 * 90), 90, min(90.0, dmg2 / hp2 * 90), 5))
                     hp1 -= dmg1
                     if hp1 <= 0 and hp2:
                         win = True

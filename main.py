@@ -4,14 +4,15 @@ import sqlite3
 from random import randrange
 
 from capture import catch
-# from backpack import which
+from backpack import display
 
 
 def background(region):  # отрисовывание поля
     size = 1000, 600
     pygame.init()
     screen = pygame.display.set_mode(size)
-    screen.fill((204, 204, 204))
+    bg = pygame.image.load("data/Pallet-Town.png")
+    screen.blit(bg, (0, 0))
     screen.fill((255, 204, 0), pygame.Rect(10, 20, 700, 560))
     # вертикальные линии
     for i in range(0, 11):
@@ -23,28 +24,33 @@ def background(region):  # отрисовывание поля
                          (710, 70 * i + 20), width=5)
 
     if region == "kanto":
-        font = pygame.font.Font(None, 50)
+        font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 50)
+        font.bold = True
         text = font.render("Паллет-таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
     elif region == "johto":
-        font = pygame.font.Font(None, 40)
+        font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 40)
+        font.bold = True
         text = font.render("Петалбург-Сити", True, (0, 0, 0))
         screen.blit(text, (750, 40))
     elif region == "hoenn":
-        font = pygame.font.Font(None, 50)
+        font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 50)
+        font.bold = True
         text = font.render("Литлрут-Таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
 
     fullname = os.path.join('data', "backpack.png")
     image = pygame.image.load(fullname)
     screen.blit(image, (870, 100))
-    font = pygame.font.Font(None, 50)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 50)
+    font.bold = True
     con = sqlite3.connect("Pokemon.db")
     cur = con.cursor()
     cath = len(list(cur.execute("SELECT * FROM Collection").fetchall()))
     al = len(list(cur.execute("SELECT * FROM Kanto").fetchall())) + len(list(cur.execute(
         "SELECT * FROM Johto").fetchall())) + len(list(cur.execute("SELECT * FROM Hoenn").fetchall()))
-    font = pygame.font.Font(None, 35)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 35)
+    font.bold = True
     text = font.render("Поймано", True, (0, 0, 0))
     screen.blit(text, (730, 100))
     text = font.render(f"       {cath}", True, (0, 0, 0))
@@ -62,7 +68,8 @@ def hello():
     pygame.display.set_caption('Pokemon Yellow')
     size = 900, 600
     screen = pygame.display.set_mode(size)
-    screen.fill((204, 204, 204))
+    bg = pygame.image.load("data/Pallet-Town.png")
+    screen.blit(bg, (0, 0))
     intro_text = ["      ВЫБЕРИТЕ РЕГИОН", "",
                   "      Канто", "      Джото", "      Хоенн"]
     fullname = os.path.join('data', "pokeball.png")
@@ -70,7 +77,9 @@ def hello():
     screen.blit(image, (10, 220))
     screen.blit(image, (10, 295))
     screen.blit(image, (10, 370))
-    font = pygame.font.Font(None, 90)
+    font = pygame.font.Font("C:\\WINDOWS\\Fonts\\corbell.ttf", 60)
+
+    font.bold = True
     text_coord = 50
     for line in intro_text:
         string_rendered = font.render(line, True, (0, 0, 255))
@@ -136,8 +145,7 @@ def basic(region, x=10, y=20):
                 hello()
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     100 <= list(event.pos)[1] <= 260:
-                pass
-                # which()
+                display()
         pygame.display.flip()
 
 
