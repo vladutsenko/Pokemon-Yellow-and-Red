@@ -128,3 +128,4 @@ def battle(pokemon1, pokemon2):
         screen1.blit(text, (460, 325))
     pygame.time.delay(2000)
     pygame.quit()
+    
