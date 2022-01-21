@@ -109,7 +109,7 @@ def battle(pokemon1, pokemon2, region):
                 if 450 < x < 530 and 220 < y < 260:
                     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
                            * (1 + bonus_dmg / 100)
-                    dmg2 = 1100
+                    dmg2 = 1125
                     pygame.draw.rect(screen1, (92, 215, 90),
                                      (490 - min(90.0, dmg1 / hp1 * 90), 90, min(90.0, dmg1 / hp1 * 90), 5))
                     hp1 -= dmg1

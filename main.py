@@ -99,21 +99,27 @@ def background(region):
     screen.blit(text, (730, 205))
     text = font.render("покемонов", True, (0, 0, 0))
     screen.blit(text, (730, 240))
-    if caught == 18:
-        pygame.time.delay(1000)
+    if caught == 2:
         finish()
 
 
 def finish():
-    screen = pygame.display.set_mode((600, 313))
+    pygame.display.set_caption("Вы нашли всех покемонов")
     pygame.init()
-    image = pygame.image.load("data/celebration.jpg")
-    screen.blit(image, (0, 0))
+    screen0 = pygame.display.set_mode((600, 313))
+    image = pygame.image.load("data/celebration.png")
+    screen0.blit(image, (0, 0))
     font = pygame.font.Font("data/corbell.ttf", 20)
     font.bold = True
-    text = font.render("Вы поймали всех покемонов в этом регионе", True, (227, 8, 0))
-    screen.blit(text, (10, 10))
-    pygame.time.delay(2000)
+    text = font.render("Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
+    screen0.blit(text, (10, 10))
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        pygame.display.flip()
+    pygame.quit()
     hello()
 
 
