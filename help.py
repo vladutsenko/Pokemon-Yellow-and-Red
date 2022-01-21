@@ -10,7 +10,7 @@ def blit_text(surface, text, pos):
     ww, wh = 0, 0
     for line in text.splitlines():
         for word in line.split(' '):
-            ws = font.render(word, True, (0, 0, 0))
+            ws = font.render(word, True, (227, 8, 0))
             ww, wh = ws.get_size()
             if x + ww >= w:
                 x = pos[0]

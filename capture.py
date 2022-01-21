@@ -124,13 +124,13 @@ def battle(pokemon1, pokemon2):
         cur.execute(
             f"INSERT INTO Collection (name, element) VALUES ('{pokemon1[0]}', '{pokemon1[1]}')")
         con.commit()
-        text = font.render("Победа", True, (0, 0, 0))
-        screen1.blit(text, (460, 325))
+        text = font.render("Ваш покемон победил!", True, (0, 0, 0))
+        screen1.blit(text, (420, 325))
         pygame.display.flip()
         con.close()
     else:
-        text = font.render("Поражение", True, (0, 255, 0))
-        screen1.blit(text, (460, 325))
+        text = font.render("Ваш покемон проиграл!", True, (0, 255, 0))
+        screen1.blit(text, (420, 325))
         pygame.display.flip()
     pygame.time.delay(2000)
     pygame.quit()
