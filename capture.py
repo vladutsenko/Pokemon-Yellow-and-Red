@@ -190,7 +190,8 @@ def battle(pokemon1, pokemon2, region):
         pygame.quit()
 
     else:
-        text = font.render("Поражение", True, (0, 255, 0))
+        text = font.render("Поражение", True, (227, 8, 0))
+        pygame.time.delay(1000)
         screen1.blit(text, (460, 325))
         pygame.display.flip()
         pygame.quit()
