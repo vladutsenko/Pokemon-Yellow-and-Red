@@ -7,6 +7,31 @@ from backpack import display
 from help import info
 from shop import buy
 
+all_sprites = pygame.sprite.Group()
+
+
+class AnimatedSprite(pygame.sprite.Sprite):
+    def __init__(self, sheet, columns, rows, x, y):
+        super().__init__(all_sprites)
+        self.frames = []
+        self.cut_sheet(sheet, columns, rows)
+        self.cur_frame = 0
+        self.image = self.frames[self.cur_frame]
+        self.rect = self.rect.move(x, y)
+
+    def cut_sheet(self, sheet, columns, rows):
+        self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
+                                sheet.get_height() // rows)
+        for j in range(rows):
+            for i in range(columns):
+                frame_location = (self.rect.w * i, self.rect.h * j)
+                self.frames.append(sheet.subsurface(pygame.Rect(
+                    frame_location, self.rect.size)))
+
+    def update(self):
+        self.cur_frame = (self.cur_frame + 1) % len(self.frames)
+        self.image = self.frames[self.cur_frame]
+
 
 class Field:
     def __init__(self, n, m):
@@ -101,7 +126,7 @@ def background(region):
     screen.blit(text, (730, 205))
     text = font.render("покемонов", True, (0, 0, 0))
     screen.blit(text, (730, 240))
-    if caught == 18:
+    if caught == 2:
         finish()
 
 
@@ -115,12 +140,23 @@ def finish():
     font.bold = True
     text = font.render("Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
     screen0.blit(text, (10, 10))
+    clock = pygame.time.Clock()
+    miku = AnimatedSprite(pygame.image.load("data/miku_spritesheet.png"), 5, 1, 420, 200)
+    all_sprites.add(miku)
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        all_sprites.update()
+        screen0.blit(image, (0, 0))
+        font = pygame.font.Font("data/corbell.ttf", 20)
+        font.bold = True
+        text = font.render("Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
+        screen0.blit(text, (10, 10))
+        all_sprites.draw(screen0)
         pygame.display.flip()
+        clock.tick(5)
     pygame.quit()
     hello()
 
