@@ -28,7 +28,8 @@ def catch(region):
     screen1.blit(bg, (0, 0))
     font = pygame.font.Font("data/corbell.ttf", 20)
     font.bold = True
-    text = font.render(f"Вы встретили {pokemon[2][:-2]}ого покемона: ", True, (227, 8, 0))
+    text = font.render(
+        f"Вы встретили {pokemon[2][:-2]}ого покемона: ", True, (227, 8, 0))
     screen1.blit(text, (40, 20))
     text = font.render(f"{pokemon[0]} ({pokemon[1]})", True, (227, 8, 0))
     screen1.blit(text, (40, 40))
@@ -103,7 +104,7 @@ def battle(pokemon1, pokemon2):
                 x, y = event.pos
                 if 450 < x < 530 and 220 < y < 260:
                     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
-                           * (1 + bonus_dmg / 100)
+                        * (1 + bonus_dmg / 100)
                     dmg2 = 1000
                     pygame.draw.rect(screen1, (92, 215, 90),
                                      (490 - min(90.0, dmg1 / hp1 * 90), 90, min(90.0, dmg1 / hp1 * 90), 5))
@@ -120,14 +121,16 @@ def battle(pokemon1, pokemon2):
     if win:
         con = sqlite3.connect("Pokemon.db")
         cur = con.cursor()
-        cur.execute(f"INSERT INTO Collection (name, element) VALUES ('{pokemon1[0]}', '{pokemon1[1]}')")
+        cur.execute(
+            f"INSERT INTO Collection (name, element) VALUES ('{pokemon1[0]}', '{pokemon1[1]}')")
         con.commit()
         text = font.render("Победа", True, (0, 0, 0))
         screen1.blit(text, (460, 325))
+        pygame.display.flip()
         con.close()
     else:
         text = font.render("Поражение", True, (0, 255, 0))
         screen1.blit(text, (460, 325))
+        pygame.display.flip()
     pygame.time.delay(2000)
     pygame.quit()
-    
