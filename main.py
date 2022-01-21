@@ -181,7 +181,7 @@ def basic(region, x=10, y=20):
                     buy(pokeball)
                     basic(region, pos_x, pos_y)
                 if field.grid[i][j] == 1:  # есть покемон или нет
-                    catch(region, pokeball)
+                    pokeball = catch(region, pokeball)
                     basic(region, pos_x, pos_y)
                 elif field.grid[i][j] == 2:  # ловушка
                     pass
