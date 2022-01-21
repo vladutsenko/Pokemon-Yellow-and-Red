@@ -45,9 +45,5 @@ o   Если использовать насекомого против трав
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONUP and event.button == 4:
-                screen3.scroll(0, 20)
-            if event.type == pygame.MOUSEBUTTONUP and event.button == 5:
-                screen3.scroll(0, -20)
         pygame.display.flip()
     pygame.quit()

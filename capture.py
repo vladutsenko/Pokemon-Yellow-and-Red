@@ -105,7 +105,6 @@ def battle(pokemon1, pokemon2, region):
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                # print("hit")
                 x, y = event.pos
                 if 450 < x < 530 and 220 < y < 260:
                     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
@@ -170,7 +169,7 @@ def battle(pokemon1, pokemon2, region):
                         pygame.display.flip()
                         if 20 < x < 120:
                             f = randrange(100)
-                            if f <= 60:
+                            if f <= 100:
                                 screen1.blit(text2, (20, 300))
                                 con = sqlite3.connect("Pokemon.db")
                                 cur = con.cursor()
@@ -187,7 +186,7 @@ def battle(pokemon1, pokemon2, region):
                         elif 220 < x < 320 or 420 < x < 520:
                             screen1.blit(text4, (20, 300))
             pygame.display.flip()
-        pygame.time.delay(2000)
+        pygame.time.delay(1000)
         pygame.quit()
 
     else:
