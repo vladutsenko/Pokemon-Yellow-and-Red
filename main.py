@@ -164,7 +164,7 @@ def hello():
             pygame.display.flip()
 
 
-def basic(region, x=10, y=20, i=0, j=0):
+def basic(region, x=10, y=20):
     size = 900, 600
     screen = pygame.display.set_mode(size)
     background(region)
@@ -174,10 +174,41 @@ def basic(region, x=10, y=20, i=0, j=0):
     screen.blit(image, (x, y))
     pos_x = x
     pos_y = y
-    pokeball = 0
+    i, j = 0, 0
+    pokeball = 10
+    incense = 0
     running = True
     while running:
         for event in pygame.event.get():
+            screen.fill((204, 204, 204), pygame.Rect(730, 290, 240, 180))
+            for i in range(0, 3):
+                pygame.draw.line(screen, (0, 0, 0), (120 * i + 730, 290),
+                                 (120 * i + 730, 470), width=3)
+            for i in range(0, 5):
+                pygame.draw.line(screen, (0, 0, 0), (730, 45 * i + 290),
+                                 (970, 45 * i + 290), width=3)
+            font = pygame.font.Font("data/corbell.ttf", 35)
+            font.bold = True
+            r = pygame.image.load("data/red.png")
+            r = pygame.transform.scale(r, (40, 40))
+            screen.blit(r, (770, 292))
+            text = font.render(str(pokeball), True, (0, 0, 0))
+            screen.blit(text, (895, 295))
+            r = pygame.image.load("data/blue.png")
+            r = pygame.transform.scale(r, (40, 40))
+            screen.blit(r, (770, 337))
+            text = font.render("0", True, (0, 0, 0))
+            screen.blit(text, (895, 340))
+            r = pygame.image.load("data/yellow.png")
+            r = pygame.transform.scale(r, (40, 40))
+            screen.blit(r, (770, 382))
+            text = font.render("0", True, (0, 0, 0))
+            screen.blit(text, (895, 385))
+            r = pygame.image.load("data/incense.png")
+            r = pygame.transform.scale(r, (40, 40))
+            screen.blit(r, (770, 427))
+            text = font.render(str(incense), True, (0, 0, 0))
+            screen.blit(text, (895, 430))
             if event.type == pygame.QUIT:
                 running = False
                 exit(0)
@@ -206,11 +237,10 @@ def basic(region, x=10, y=20, i=0, j=0):
                         (region == "Johto" and pos_x == 640 and pos_y == 510) or \
                         (region == "Hoenn" and pos_x == 150 and pos_y == 440):
                     buy(pokeball)
-                    basic(region, pos_x, pos_y, i, j)
+                    basic(region, pos_x, pos_y)
                 if field.grid[i][j] == 1:  # есть покемон или нет
-                    catch(region)
-                    field.grid[i][j] = 0
-                    basic(region, pos_x, pos_y, i, j)
+                    pokeball = catch(region, pokeball)
+                    basic(region, pos_x, pos_y)
                 elif field.grid[i][j] == 2:  # ловушка
                     pass
                 elif field.grid[i][j] == 3:  # ладан
@@ -221,11 +251,11 @@ def basic(region, x=10, y=20, i=0, j=0):
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     100 <= list(event.pos)[1] <= 260:
                 display()
-                basic(region, pos_x, pos_y, i, j)
+                basic(region, pos_x, pos_y)
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     480 <= list(event.pos)[1] <= 580:
                 info()
-                basic(region, pos_x, pos_y, i, j)
+                basic(region, pos_x, pos_y)
         pygame.display.flip()
 
 
