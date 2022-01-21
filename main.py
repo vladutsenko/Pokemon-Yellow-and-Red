@@ -78,18 +78,18 @@ def background(region):
     font.bold = True
     con = sqlite3.connect("Pokemon.db")
     cur = con.cursor()
-    cath = len(list(cur.execute("SELECT * FROM Collection").fetchall()))
-    al = len(list(cur.execute("SELECT * FROM Kanto").fetchall())) + len(list(cur.execute(
+    caught = len(list(cur.execute("SELECT * FROM Collection").fetchall()))
+    quantity = len(list(cur.execute("SELECT * FROM Kanto").fetchall())) + len(list(cur.execute(
         "SELECT * FROM Johto").fetchall())) + len(list(cur.execute("SELECT * FROM Hoenn").fetchall()))
     font = pygame.font.Font("data/corbell.ttf", 35)
     font.bold = True
     text = font.render("Поймано", True, (0, 0, 0))
     screen.blit(text, (730, 100))
-    text = font.render(f"       {cath}", True, (0, 0, 0))
+    text = font.render(f"       {caught}", True, (0, 0, 0))
     screen.blit(text, (730, 135))
     text = font.render("      из", True, (0, 0, 0))
     screen.blit(text, (730, 170))
-    text = font.render(f"      {al}", True, (0, 0, 0))
+    text = font.render(f"      {quantity}", True, (0, 0, 0))
     screen.blit(text, (730, 205))
     text = font.render("покемонов", True, (0, 0, 0))
     screen.blit(text, (730, 240))
@@ -202,6 +202,11 @@ def basic(region, x=10, y=20):
 
 
 if __name__ == '__main__':
+    c = sqlite3.connect("Pokemon.db")
+    cur = c.cursor()
+    cur.execute("DELETE FROM Collection WHERE name != 'Бульбазавр' ")
+    c.commit()
+    c.close()
     hello()
     while pygame.event.wait().type != pygame.QUIT:
         pass

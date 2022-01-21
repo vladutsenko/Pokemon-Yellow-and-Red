@@ -52,7 +52,7 @@ def catch(region):
                 x, y = event.pos
                 for i, p in enumerate(pokemons):
                     if 110 + 50 * i <= y < 160 + 50 * i and 40 < x < 140:
-                        battle(pokemon, p)
+                        battle(pokemon, p, region)
                         running = False
                         break
         if not running:
@@ -61,12 +61,17 @@ def catch(region):
     pygame.quit()
 
 
-def battle(pokemon1, pokemon2):
+def battle(pokemon1, pokemon2, region):
     global screen1
     atk = 1000
     crit_rate = 15
     crit_dmg = 50
     bonus_dmg = 0
+    if pokemon2[0] != "Бульбазавр":
+        c = sqlite3.connect("Pokemon.db")
+        cur = c.cursor()
+        stats = cur.execute(f"SELECT atk, crit_rate, crit_dmg FROM {region} WHERE name = '{pokemon2[0]}'").fetchall()[0]
+        atk, crit_rate, crit_dmg = stats
     if pokemon1[1] == "травяной" and pokemon2[1] == "огненный":
         atk *= 1.25
     elif pokemon1[1] == "огненный" and pokemon2[1] == "водный":
@@ -104,16 +109,16 @@ def battle(pokemon1, pokemon2):
                 x, y = event.pos
                 if 450 < x < 530 and 220 < y < 260:
                     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
-                        * (1 + bonus_dmg / 100)
-                    dmg2 = 1000
+                           * (1 + bonus_dmg / 100)
+                    dmg2 = 1100
                     pygame.draw.rect(screen1, (92, 215, 90),
                                      (490 - min(90.0, dmg1 / hp1 * 90), 90, min(90.0, dmg1 / hp1 * 90), 5))
-                    pygame.draw.rect(screen1, (92, 215, 90),
-                                     (640 - min(90.0, dmg2 / hp2 * 90), 90, min(90.0, dmg2 / hp2 * 90), 5))
                     hp1 -= dmg1
                     if hp1 <= 0 and hp2:
                         win = True
                         running = False
+                    pygame.draw.rect(screen1, (92, 215, 90),
+                                     (640 - min(90.0, dmg2 / hp2 * 90), 90, min(90.0, dmg2 / hp2 * 90), 5))
                     hp2 -= dmg2
                     if hp1 and hp2 <= 0:
                         running = False
@@ -129,7 +134,7 @@ def battle(pokemon1, pokemon2):
         pygame.display.flip()
         con.close()
     else:
-        text = font.render("Ваш покемон проиграл!", True, (0, 255, 0))
+        text = font.render("Ваш покемон проиграл!", True, (0, 0, 0))
         screen1.blit(text, (420, 325))
         pygame.display.flip()
     pygame.time.delay(2000)
