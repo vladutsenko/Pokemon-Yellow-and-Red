@@ -6,6 +6,7 @@ from random import randrange
 from capture import catch
 from backpack import display
 from help import info
+from shop import buy
 
 
 class Field:
@@ -13,18 +14,6 @@ class Field:
         self.rows = n
         self.cols = m
         self.grid = [[0] * m for _ in range(n)]
-        self.place()
-
-    def place(self):
-        for i in range(self.rows):
-            for j in range(self.cols):
-                r = randrange(100)
-                if r < 20:
-                    self.grid[i][j] = 1
-                elif 20 <= r < 30:
-                    self.grid[i][j] = 2  # ловушка
-                elif 30 <= r < 40:
-                    self.grid[i][j] = 3  # ладан
 
     def render(self, screen):
         screen.fill((255, 204, 0), pygame.Rect(10, 20, 700, 560))
@@ -49,21 +38,25 @@ def background(region):
     screen.blit(bg, (0, 0))
 
     field.render(screen)
+    bg = pygame.image.load("data/pokecenter.png")
     if region == "Kanto":
         font = pygame.font.Font("data/corbell.ttf", 35)
         font.bold = True
         text = font.render("Паллет-таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
+        screen.blit(bg, (500, 230))
     elif region == "Johto":
         font = pygame.font.Font("data/corbell.ttf", 25)
         font.bold = True
         text = font.render("Петалбург-Сити", True, (0, 0, 0))
         screen.blit(text, (750, 40))
+        screen.blit(bg, (640, 510))
     elif region == "Hoenn":
         font = pygame.font.Font("data/corbell.ttf", 35)
         font.bold = True
         text = font.render("Литлрут-Таун", True, (0, 0, 0))
         screen.blit(text, (750, 40))
+        screen.blit(bg, (150, 440))
 
     image = pygame.image.load("data/backpack.png")
     screen.blit(image, (870, 100))
@@ -92,14 +85,13 @@ def background(region):
 
 def hello():
     pygame.init()
-    pygame.display.set_caption('Pokemon Yellow')
+    pygame.display.set_caption('Pokemon Yellow and Red')
     size = 900, 600
     screen = pygame.display.set_mode(size)
     bg = pygame.image.load("data/Pallet-Town.png")
     screen.blit(bg, (0, 0))
     intro_text = ["      ВЫБЕРИТЕ РЕГИОН", "",
                   "      Канто", "      Джото", "      Хоенн"]
-    fullname = os.path.join('data', "pokeball.png")
     image = pygame.image.load("data/pokeball.png")
     screen.blit(image, (10, 220))
     screen.blit(image, (10, 295))
@@ -144,6 +136,7 @@ def basic(region, x=10, y=20):
     pos_x = x
     pos_y = y
     i, j = 0, 0
+    pokeball = 0
     running = True
     while running:
         for event in pygame.event.get():
@@ -171,13 +164,19 @@ def basic(region, x=10, y=20):
                     i += 1
                     background(region)
                     screen.blit(image, (pos_x, pos_y))
-                if field.grid[i][j] == 1:  # есть покемон или нет
+                if (region == "Kanto" and pos_x == 500 and pos_y == 230) or \
+                        (region == "Johto" and pos_x == 640 and pos_y == 510) or \
+                        (region == "Hoenn" and pos_x == 150 and pos_y == 440):
+                    buy(pokeball)
+                    basic(region, pos_x, pos_y)
+                f = randrange(100)
+                if f == 1:  # ловушка
+                    pass
+                elif f == 2:  # ладан
+                    pass
+                elif 10 <= f <= 30:  # есть покемон или нет
                     catch(region)
                     basic(region, pos_x, pos_y)
-                elif field.grid[i][j] == 2:  # ловушка
-                    pass
-                elif field.grid[i][j] == 3:  # ладан
-                    pass
             if event.type == pygame.MOUSEBUTTONDOWN and 750 <= list(event.pos)[0] <= 1000 and \
                     40 <= list(event.pos)[1] <= 100:
                 hello()
