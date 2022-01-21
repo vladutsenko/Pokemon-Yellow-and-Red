@@ -164,7 +164,7 @@ def hello():
             pygame.display.flip()
 
 
-def basic(region, x=10, y=20):
+def basic(region, x=10, y=20, i=0, j=0):
     size = 900, 600
     screen = pygame.display.set_mode(size)
     background(region)
@@ -237,10 +237,11 @@ def basic(region, x=10, y=20):
                         (region == "Johto" and pos_x == 640 and pos_y == 510) or \
                         (region == "Hoenn" and pos_x == 150 and pos_y == 440):
                     buy(pokeball)
-                    basic(region, pos_x, pos_y)
+                    basic(region, pos_x, pos_y, i, j)
                 if field.grid[i][j] == 1:  # есть покемон или нет
-                    pokeball = catch(region, pokeball)
-                    basic(region, pos_x, pos_y)
+                    catch(region)
+                    field.grid[i][j] = 0
+                    basic(region, pos_x, pos_y, i, j)
                 elif field.grid[i][j] == 2:  # ловушка
                     pass
                 elif field.grid[i][j] == 3:  # ладан
@@ -251,11 +252,11 @@ def basic(region, x=10, y=20):
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     100 <= list(event.pos)[1] <= 260:
                 display()
-                basic(region, pos_x, pos_y)
+                basic(region, pos_x, pos_y, i, j)
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     480 <= list(event.pos)[1] <= 580:
                 info()
-                basic(region, pos_x, pos_y)
+                basic(region, pos_x, pos_y, i, j)
         pygame.display.flip()
 
 
