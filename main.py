@@ -89,7 +89,7 @@ def background(region):
     screen.blit(text, (730, 135))
     text = font.render("      из", True, (0, 0, 0))
     screen.blit(text, (730, 170))
-    text = font.render(f"      {quantity}", True, (0, 0, 0))
+    text = font.render(f"      {quantity + 1}", True, (0, 0, 0))
     screen.blit(text, (730, 205))
     text = font.render("покемонов", True, (0, 0, 0))
     screen.blit(text, (730, 240))
@@ -181,7 +181,7 @@ def basic(region, x=10, y=20):
                     buy(pokeball)
                     basic(region, pos_x, pos_y)
                 if field.grid[i][j] == 1:  # есть покемон или нет
-                    catch(region)
+                    catch(region, pokeball)
                     basic(region, pos_x, pos_y)
                 elif field.grid[i][j] == 2:  # ловушка
                     pass
