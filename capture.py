@@ -124,18 +124,74 @@ def battle(pokemon1, pokemon2, region):
                         running = False
             pygame.display.flip()
     if win:
-        con = sqlite3.connect("Pokemon.db")
-        cur = con.cursor()
-        cur.execute(
-            f"INSERT INTO Collection (name, element) VALUES ('{pokemon1[0]}', '{pokemon1[1]}')")
-        con.commit()
-        text = font.render("Ваш покемон победил!", True, (0, 0, 0))
-        screen1.blit(text, (420, 325))
+        text = font.render("Победа", True, (0, 0, 0))
+        screen1.blit(text, (460, 325))
         pygame.display.flip()
-        con.close()
+        pygame.time.delay(2000)
+        bg = pygame.image.load("data/battle-background.png")
+        screen1.blit(bg, (0, 0))
+        font = pygame.font.Font("data/corbell.ttf", 20)
+        font.bold = True
+        text = font.render("Выбрите свой покеболл:", True, (0, 0, 0))
+        screen1.blit(text, (20, 20))
+        f = pygame.image.load("data/red.png")
+        screen1.blit(f, (20, 50))
+        f = pygame.image.load("data/blue.png")
+        screen1.blit(f, (220, 50))
+        f = pygame.image.load("data/yellow.png")
+        screen1.blit(f, (420, 50))
+        pygame.display.flip()
+        font = pygame.font.Font("data/corbell.ttf", 20)
+        font.bold = True
+        text2 = font.render("Покемон пойман", True, (0, 0, 0))
+        text3 = font.render("Покемон сбежал", True, (0, 0, 0))
+        text4 = font.render("У вас нет этого покеболла", True, (0, 0, 0))
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    x, y = event.pos
+                    if 5 < y < 150:
+                        bg = pygame.image.load("data/battle-background.png")
+                        screen1.blit(bg, (0, 0))
+                        font = pygame.font.Font("data/corbell.ttf", 20)
+                        font.bold = True
+                        text = font.render(
+                            "Выбрите свой покеболл:", True, (0, 0, 0))
+                        screen1.blit(text, (20, 20))
+                        f = pygame.image.load("data/red.png")
+                        screen1.blit(f, (20, 50))
+                        f = pygame.image.load("data/blue.png")
+                        screen1.blit(f, (220, 50))
+                        f = pygame.image.load("data/yellow.png")
+                        screen1.blit(f, (420, 50))
+                        pygame.display.flip()
+                        if 20 < x < 120:
+                            f = randrange(100)
+                            if f <= 60:
+                                screen1.blit(text2, (20, 300))
+                                con = sqlite3.connect("Pokemon.db")
+                                cur = con.cursor()
+                                cur.execute(
+                                    f"INSERT INTO Collection (name, element) VALUES ('{pokemon1[0]}', '{pokemon1[1]}')")
+                                con.commit()
+                                con.close()
+                                running = False
+                                break
+                            else:
+                                screen1.blit(text3, (20, 300))
+                                running = False
+                                break
+                        elif 220 < x < 320 or 420 < x < 520:
+                            screen1.blit(text4, (20, 300))
+            pygame.display.flip()
+        pygame.time.delay(2000)
+        pygame.quit()
+
     else:
-        text = font.render("Ваш покемон проиграл!", True, (0, 0, 0))
-        screen1.blit(text, (420, 325))
+        text = font.render("Поражение", True, (0, 255, 0))
+        screen1.blit(text, (460, 325))
         pygame.display.flip()
-    pygame.time.delay(2000)
-    pygame.quit()
+        pygame.quit()
