@@ -5,7 +5,7 @@ from random import randrange, choice
 screen1 = pygame.display.set_mode((680, 400))
 
 
-def catch(region):
+def catch(region, pokeball):
     global screen1
     pygame.display.set_caption('Catch the Pokemon!')
     screen1 = pygame.display.set_mode((680, 400))
@@ -52,7 +52,7 @@ def catch(region):
                 x, y = event.pos
                 for i, p in enumerate(pokemons):
                     if 110 + 50 * i <= y < 160 + 50 * i and 40 < x < 140:
-                        battle(pokemon, p, region)
+                        battle(pokemon, p, region, pokeball)
                         running = False
                         break
         if not running:
@@ -61,7 +61,7 @@ def catch(region):
     pygame.quit()
 
 
-def battle(pokemon1, pokemon2, region):
+def battle(pokemon1, pokemon2, region, pokeball):
     global screen1
     atk = 1000
     crit_rate = 15
@@ -167,7 +167,7 @@ def battle(pokemon1, pokemon2, region):
                         f = pygame.image.load("data/yellow.png")
                         screen1.blit(f, (420, 50))
                         pygame.display.flip()
-                        if 20 < x < 120:
+                        if 20 < x < 120 and pokeball > 0:
                             f = randrange(100)
                             if f <= 100:
                                 screen1.blit(text2, (20, 300))
@@ -194,3 +194,4 @@ def battle(pokemon1, pokemon2, region):
         screen1.blit(text, (460, 325))
         pygame.display.flip()
         pygame.quit()
+    return pokeball
