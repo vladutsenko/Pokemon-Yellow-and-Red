@@ -126,7 +126,7 @@ def background(region):
     screen.blit(text, (730, 205))
     text = font.render("покемонов", True, (0, 0, 0))
     screen.blit(text, (730, 240))
-    if caught == 2:
+    if caught == 18:
         finish()
 
 
