@@ -1,5 +1,4 @@
 import pygame
-import os
 import sqlite3
 from random import randrange
 
