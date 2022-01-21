@@ -17,11 +17,13 @@ class Field:
 
     def place(self):
         cnt = 18
+        trap = 5
         for i in range(self.rows):
             for j in range(self.cols):
                 r = randrange(100)
-                if 20 <= r < 30:
-                    self.grid[i][j] = 2  # ловушка
+                if 20 <= r < 30 and trap:
+                    self.grid[i][j] = 2
+                    trap -= 1  # ловушка
                 elif 30 <= r < 40:
                     self.grid[i][j] = 3  # ладан
         while cnt:
@@ -99,7 +101,7 @@ def background(region):
     screen.blit(text, (730, 205))
     text = font.render("покемонов", True, (0, 0, 0))
     screen.blit(text, (730, 240))
-    if caught == 2:
+    if caught == 18:
         finish()
 
 
@@ -180,12 +182,12 @@ def basic(region, x=10, y=20, i=0, j=0):
     while running:
         for event in pygame.event.get():
             screen.fill((204, 204, 204), pygame.Rect(730, 290, 240, 180))
-            for i in range(0, 3):
-                pygame.draw.line(screen, (0, 0, 0), (120 * i + 730, 290),
-                                 (120 * i + 730, 470), width=3)
-            for i in range(0, 5):
-                pygame.draw.line(screen, (0, 0, 0), (730, 45 * i + 290),
-                                 (970, 45 * i + 290), width=3)
+            for k in range(0, 3):
+                pygame.draw.line(screen, (0, 0, 0), (120 * k + 730, 290),
+                                 (120 * k + 730, 470), width=3)
+            for k in range(0, 5):
+                pygame.draw.line(screen, (0, 0, 0), (730, 45 * k + 290),
+                                 (970, 45 * k + 290), width=3)
             font = pygame.font.Font("data/corbell.ttf", 35)
             font.bold = True
             r = pygame.image.load("data/red.png")
@@ -240,7 +242,7 @@ def basic(region, x=10, y=20, i=0, j=0):
                 font = pygame.font.Font("data/corbell.ttf", 15)
                 font.bold = True
                 if field.grid[i][j] == 1:  # есть покемон или нет
-                    pokeball = catch(region)
+                    pokeball = catch(region, pokeball)
                     field.grid[i][j] = 0
                     basic(region, pos_x, pos_y, i, j)
                 elif field.grid[i][j] == 2:  # ловушка

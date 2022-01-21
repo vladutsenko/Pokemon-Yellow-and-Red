@@ -10,7 +10,6 @@ def catch(region, pokeball):
     pygame.display.set_caption('Catch the Pokemon!')
     screen1 = pygame.display.set_mode((680, 400))
     pygame.init()
-
     elements = []
     con = sqlite3.connect("Pokemon.db")
     cur = con.cursor()
@@ -52,13 +51,14 @@ def catch(region, pokeball):
                 x, y = event.pos
                 for i, p in enumerate(pokemons):
                     if 110 + 50 * i <= y < 160 + 50 * i and 40 < x < 140:
-                        battle(pokemon, p, region, pokeball)
+                        p = battle(pokemon, p, region, pokeball)
                         running = False
                         break
         if not running:
             break
         pygame.display.flip()
     pygame.quit()
+    return p
 
 
 def battle(pokemon1, pokemon2, region, pokeball):
@@ -109,7 +109,7 @@ def battle(pokemon1, pokemon2, region, pokeball):
                 if 450 < x < 530 and 220 < y < 260:
                     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) \
                            * (1 + bonus_dmg / 100)
-                    dmg2 = 1125
+                    dmg2 = 1110
                     pygame.draw.rect(screen1, (92, 215, 90),
                                      (490 - min(90.0, dmg1 / hp1 * 90), 90, min(90.0, dmg1 / hp1 * 90), 5))
                     hp1 -= dmg1
@@ -158,7 +158,7 @@ def battle(pokemon1, pokemon2, region, pokeball):
                         font = pygame.font.Font("data/corbell.ttf", 20)
                         font.bold = True
                         text = font.render(
-                            "Выбрите свой покеболл:", True, (0, 0, 0))
+                            "Выберите свой покеболл:", True, (0, 0, 0))
                         screen1.blit(text, (20, 20))
                         f = pygame.image.load("data/red.png")
                         screen1.blit(f, (20, 50))
@@ -183,7 +183,7 @@ def battle(pokemon1, pokemon2, region, pokeball):
                                 screen1.blit(text3, (20, 300))
                                 running = False
                                 break
-                        elif 220 < x < 320 or 420 < x < 520:
+                        elif 220 < x < 320 or 420 < x < 520 or pokeball == 0:
                             screen1.blit(text4, (20, 300))
             pygame.display.flip()
         pygame.time.delay(1000)
