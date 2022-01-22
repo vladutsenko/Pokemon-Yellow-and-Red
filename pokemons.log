@@ -1,0 +1,41 @@
+capture-logger - DEBUG - started battle, hp1 = 10000, hp2 = 10000
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = 8500.0, hp2 = 8890
+capture-logger - DEBUG - total damage: 1 - 1500.0, 2 - 1110
+capture-logger - DEBUG - damage bar length: 1 - 15.882352941176471, 2 - 11.237345331833522
+capture-logger - DEBUG - hp bar updated in battle()
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = 7000.0, hp2 = 7780
+capture-logger - DEBUG - total damage: 1 - 3000.0, 2 - 2220
+capture-logger - DEBUG - damage bar length: 1 - 38.57142857142857, 2 - 25.681233933161952
+capture-logger - DEBUG - hp bar updated in battle()
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = 5500.0, hp2 = 6670
+capture-logger - DEBUG - total damage: 1 - 4500.0, 2 - 3330
+capture-logger - DEBUG - damage bar length: 1 - 73.63636363636364, 2 - 44.93253373313343
+capture-logger - DEBUG - hp bar updated in battle()
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = 4500.0, hp2 = 5560
+capture-logger - DEBUG - total damage: 1 - 5500.0, 2 - 4440
+capture-logger - DEBUG - damage bar length: 1 - 110.00000000000001, 2 - 71.87050359712231
+capture-logger - DEBUG - hp bar updated in battle()
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = 3000.0, hp2 = 4450
+capture-logger - DEBUG - total damage: 1 - 7000.0, 2 - 5550
+capture-logger - DEBUG - damage bar length: 1 - 210.0, 2 - 112.24719101123596
+capture-logger - DEBUG - hp bar updated in battle()
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = 2000.0, hp2 = 3340
+capture-logger - DEBUG - total damage: 1 - 8000.0, 2 - 6660
+capture-logger - DEBUG - damage bar length: 1 - 360.0, 2 - 179.46107784431138
+capture-logger - DEBUG - hp bar updated in battle()
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = 500.0, hp2 = 2230
+capture-logger - DEBUG - total damage: 1 - 9500.0, 2 - 7770
+capture-logger - DEBUG - damage bar length: 1 - 1710.0, 2 - 313.58744394618833
+capture-logger - DEBUG - hp bar updated in battle()
+capture-logger - DEBUG - Attack sequence started
+capture-logger - DEBUG - hp1 = -500.0, hp2 = 2230
+capture-logger - DEBUG - total damage: 1 - 10000, 2 - 7770
+capture-logger - DEBUG - damage bar length: 1 - -1800.0, 2 - 313.58744394618833
+capture-logger - DEBUG - hp bar updated in battle()
