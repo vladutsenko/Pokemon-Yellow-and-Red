@@ -272,7 +272,7 @@ def attack(pokemon1, pokemon2, region):
         screen1.blit(text, (465, 230))
         all_sprites.draw(screen1)
         pygame.display.flip()
-        clock.tick(300)
+        clock.tick(500)
     all_sprites.remove(sprite1)
     all_sprites.remove(sprite2)
     dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) * (1 + bonus_dmg / 100)
