@@ -105,8 +105,8 @@ def battle(pokemon1, pokemon2, region, pokeball):
                     res = attack(pokemon1, pokemon2, region)
                     logger.debug(f"hp1 = {hp1}, hp2 = {hp2}")
                     logger.debug(f"total damage: 1 - {min(10000, 10000 - hp1)}, 2 - {min(10000, 10000 - hp2)}")
-                    logger.debug(f"damage bar length: 1 - {min(10000, 10000 - hp1) / hp1 * 90}, "
-                                 f"2 - {min(10000, 10000 - hp2) / hp2 * 90}")
+                    logger.debug(f"damage bar length: 1 - {min(10000, 10000 - hp1) / 10000 * 90}, "
+                                 f"2 - {min(10000, 10000 - hp2) / 10000 * 90}")
                     pygame.draw.rect(screen1, (92, 215, 90),
                                      (490 - min(10000, 10000 - hp1) / 10000 * 90, 90,
                                       min(10000, 10000 - hp1) / 10000 * 90, 5))
