@@ -165,6 +165,10 @@ def finish():
 
 
 def hello():
+    pygame.mixer.init()
+    pygame.mixer.music.load('data/choose_region.mp3')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.2)
     pygame.init()
     pygame.display.set_caption('Pokemon Yellow and Red')
     size = 900, 600
@@ -210,6 +214,9 @@ def basic(region, x=10, y=20, i=0, j=0):
     screen = pygame.display.set_mode(size)
     background(region)
     pygame.init()
+    pygame.mixer.music.load('data/go.mp3')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(1.2)
     # перемещение героя
     image = pygame.image.load("data/trainer.png")
     screen.blit(image, (x, y))
