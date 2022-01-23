@@ -7,7 +7,8 @@ screen1 = pygame.display.set_mode((680, 400))
 hp1 = 10000
 hp2 = 10000
 all_sprites = pygame.sprite.Group()
-logging.basicConfig(filename='pokemons.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='pokemons.log', filemode='w',
+                    format='%(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('capture-logger')
 logger.setLevel(logging.DEBUG)
 
@@ -33,6 +34,9 @@ class Pokemon(pygame.sprite.Sprite):
 
 def catch(region, pokeball):
     global screen1
+    pygame.mixer.music.load('data/choose_pokemon.mp3')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.2)
     pygame.display.set_caption('Catch the Pokemon!')
     screen1 = pygame.display.set_mode((680, 400))
     pygame.init()
@@ -83,6 +87,9 @@ def catch(region, pokeball):
 
 def battle(pokemon1, pokemon2, region, pokeball):
     global screen1, hp1, hp2
+    pygame.mixer.music.load('data/battle.mp3')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.1)
     pygame.draw.rect(screen1, (255, 0, 0), (400, 90, 90, 5))
     pygame.draw.rect(screen1, (255, 0, 0), (550, 90, 90, 5))
     hp1 = 10000
@@ -104,7 +111,8 @@ def battle(pokemon1, pokemon2, region, pokeball):
                 if 450 < x < 530 and 220 < y < 260:
                     res = attack(pokemon1, pokemon2, region)
                     logger.debug(f"hp1 = {hp1}, hp2 = {hp2}")
-                    logger.debug(f"total damage: 1 - {min(10000, 10000 - hp1)}, 2 - {min(10000, 10000 - hp2)}")
+                    logger.debug(
+                        f"total damage: 1 - {min(10000, 10000 - hp1)}, 2 - {min(10000, 10000 - hp2)}")
                     logger.debug(f"damage bar length: 1 - {min(10000, 10000 - hp1) / 10000 * 90}, "
                                  f"2 - {min(10000, 10000 - hp2) / 10000 * 90}")
                     pygame.draw.rect(screen1, (92, 215, 90),
@@ -130,6 +138,8 @@ def battle(pokemon1, pokemon2, region, pokeball):
         screen1.blit(text, (460, 325))
         pygame.display.flip()
         pygame.time.delay(2000)
+        pygame.mixer.music.load('data/choose_pokeball.mp3')
+        pygame.mixer.music.play(-1)
         bg = pygame.image.load("data/battle-background.png")
         screen1.blit(bg, (0, 0))
         font = pygame.font.Font("data/corbell.ttf", 20)
@@ -224,7 +234,8 @@ def attack(pokemon1, pokemon2, region):
     if pokemon2[0] != "Бульбазавр":
         c = sqlite3.connect("Pokemon.db")
         cur = c.cursor()
-        stats = cur.execute(f"SELECT atk, crit_rate, crit_dmg FROM {region} WHERE name = '{pokemon2[0]}'").fetchall()[0]
+        stats = cur.execute(
+            f"SELECT atk, crit_rate, crit_dmg FROM {region} WHERE name = '{pokemon2[0]}'").fetchall()[0]
         atk, crit_rate, crit_dmg = stats
     if pokemon1[1] == "травяной" and pokemon2[1] == "огненный":
         atk *= 1.25
@@ -275,7 +286,8 @@ def attack(pokemon1, pokemon2, region):
         clock.tick(500)
     all_sprites.remove(sprite1)
     all_sprites.remove(sprite2)
-    dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) * (1 + bonus_dmg / 100)
+    dmg1 = (atk if randrange(100) > crit_rate else atk *
+            (1 + crit_dmg / 100)) * (1 + bonus_dmg / 100)
     dmg2 = 1110
     hp1 -= dmg1
     if hp1 <= 0 and hp2:
