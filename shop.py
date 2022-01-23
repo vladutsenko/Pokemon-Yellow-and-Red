@@ -2,6 +2,9 @@ import pygame
 
 
 def buy(pokeball):
+    pygame.mixer.music.load('data/shop.mp3')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.2)
     pygame.display.set_caption('Покецентр')
     screen4 = pygame.display.set_mode((900, 500))
     pygame.init()
