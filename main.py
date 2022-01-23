@@ -138,10 +138,12 @@ def finish():
     screen0.blit(image, (0, 0))
     font = pygame.font.Font("data/corbell.ttf", 20)
     font.bold = True
-    text = font.render("Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
+    text = font.render(
+        "Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
     screen0.blit(text, (10, 10))
     clock = pygame.time.Clock()
-    miku = AnimatedSprite(pygame.image.load("data/miku_spritesheet.png"), 5, 1, 420, 200)
+    miku = AnimatedSprite(pygame.image.load(
+        "data/miku_spritesheet.png"), 5, 1, 420, 200)
     all_sprites.add(miku)
     running = True
     while running:
@@ -152,7 +154,8 @@ def finish():
         screen0.blit(image, (0, 0))
         font = pygame.font.Font("data/corbell.ttf", 20)
         font.bold = True
-        text = font.render("Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
+        text = font.render(
+            "Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
         screen0.blit(text, (10, 10))
         all_sprites.draw(screen0)
         pygame.display.flip()
@@ -282,7 +285,8 @@ def basic(region, x=10, y=20, i=0, j=0):
                     field.grid[i][j] = 0
                     basic(region, pos_x, pos_y, i, j)
                 elif field.grid[i][j] == 2:  # ловушка
-                    pygame.draw.rect(screen, (255, 204, 0), (715, 495, 190, 95))
+                    pygame.draw.rect(screen, (255, 204, 0),
+                                     (715, 495, 190, 95))
                     text = font.render(
                         "Ловушка команды R!", True, (255, 0, 0))
                     screen.blit(text, (720, 500))
@@ -314,6 +318,18 @@ def basic(region, x=10, y=20, i=0, j=0):
                     480 <= list(event.pos)[1] <= 580:
                 info()
                 basic(region, pos_x, pos_y, i, j)
+            elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
+                    425 <= list(event.pos)[1] <= 470 and incense > 0:
+                font = pygame.font.Font("data/corbell.ttf", 15)
+                font.bold = True
+                incense = incense - 1
+                text = font.render(
+                    "Использован ладан.", True, (0, 0, 0))
+                screen.blit(text, (720, 500))
+                text = font.render("Покемоны будут", True, (0, 0, 0))
+                screen.blit(text, (720, 520))
+                text = font.render("встречаться чаще.", True, (0, 0, 0))
+                screen.blit(text, (720, 540))
         pygame.display.flip()
 
 
