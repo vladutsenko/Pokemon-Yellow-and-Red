@@ -13,6 +13,33 @@ logger = logging.getLogger('capture-logger')
 logger.setLevel(logging.DEBUG)
 
 
+class Star(pygame.sprite.Sprite):
+    fire = [pygame.image.load("data/star.png")]
+    for scale in (5, 10, 20):
+        fire.append(pygame.transform.scale(fire[0], (scale, scale)))
+
+    def __init__(self, pos, dx, dy):
+        super().__init__(all_sprites)
+        self.image = choice(self.fire)
+        self.rect = self.image.get_rect()
+        self.velocity = [dx, dy]
+        self.rect.x, self.rect.y = pos
+        self.gravity = 0.5
+
+    def update(self):
+        self.velocity[1] += self.gravity
+        self.rect.x += self.velocity[0]
+        self.rect.y += self.velocity[1]
+        if not self.rect.colliderect((0, 0, 680, 400)):
+            self.kill()
+
+
+def create_stars(position):
+    count = 10
+    for _ in range(count):
+        Star(position, randrange(-5, 6), randrange(-5, 6))
+
+
 class Pokemon(pygame.sprite.Sprite):
     def __init__(self, image, pos, d, opponent=None):
         super().__init__(all_sprites)
@@ -27,6 +54,7 @@ class Pokemon(pygame.sprite.Sprite):
 
     def update(self):
         if pygame.sprite.collide_mask(self, self.opponent):
+            create_stars((475, 110))
             self.dir = -self.dir
             self.collision = True
         self.rect = self.rect.move(self.dir, 0)
@@ -116,11 +144,11 @@ def battle(pokemon1, pokemon2, region, pokeball):
                     logger.debug(f"damage bar length: 1 - {min(10000, 10000 - hp1) / 10000 * 90}, "
                                  f"2 - {min(10000, 10000 - hp2) / 10000 * 90}")
                     pygame.draw.rect(screen1, (92, 215, 90),
-                                     (490 - min(10000, 10000 - hp1) / 10000 * 90, 90,
-                                      min(10000, 10000 - hp1) / 10000 * 90, 5))
+                                     (int(490 - min(10000, 10000 - hp1) / 10000 * 90), 90,
+                                      int(min(10000, 10000 - hp1) / 10000 * 90), 5))
                     pygame.draw.rect(screen1, (92, 215, 90),
-                                     (640 - min(10000, 10000 - hp2) / 10000 * 90, 90,
-                                      min(10000, 10000 - hp2) / 10000 * 90, 5))
+                                     (int(640 - min(10000, 10000 - hp2) / 10000 * 90), 90,
+                                      int(min(10000, 10000 - hp2) / 10000 * 90), 5))
                     pygame.display.flip()
                     logger.debug("hp bar updated in battle()")
                     if res == 1:
@@ -144,7 +172,7 @@ def battle(pokemon1, pokemon2, region, pokeball):
         screen1.blit(bg, (0, 0))
         font = pygame.font.Font("data/corbell.ttf", 20)
         font.bold = True
-        text = font.render("Выбрите свой покеболл:", True, (0, 0, 0))
+        text = font.render("Выберите свой покеболл:", True, (0, 0, 0))
         screen1.blit(text, (20, 20))
         f = pygame.image.load("data/red.png")
         screen1.blit(f, (20, 50))
@@ -272,11 +300,11 @@ def attack(pokemon1, pokemon2, region):
         pygame.draw.rect(screen1, (255, 0, 0), (550, 90, 90, 5))
         pygame.draw.rect(screen1, (255, 0, 0), (450, 220, 80, 40))
         pygame.draw.rect(screen1, (92, 215, 90),
-                         (490 - min(10000, 10000 - hp1) / 10000 * 90, 90,
-                          min(10000, 10000 - hp1) / 10000 * 90, 5))
+                         (int(490 - min(10000, 10000 - hp1) / 10000 * 90), 90,
+                          int(min(10000, 10000 - hp1) / 10000 * 90), 5))
         pygame.draw.rect(screen1, (92, 215, 90),
-                         (640 - min(10000, 10000 - hp2) / 10000 * 90, 90,
-                          min(10000, 10000 - hp2) / 10000 * 90, 5))
+                         (int(640 - min(10000, 10000 - hp2) / 10000 * 90), 90,
+                          int(min(10000, 10000 - hp2) / 10000 * 90), 5))
         font = pygame.font.Font("data/corbell.ttf", 20)
         font.bold = True
         text = font.render("Атака", True, (0, 0, 0))
@@ -287,7 +315,7 @@ def attack(pokemon1, pokemon2, region):
     all_sprites.remove(sprite1)
     all_sprites.remove(sprite2)
     dmg1 = (atk if randrange(100) > crit_rate else atk *
-            (1 + crit_dmg / 100)) * (1 + bonus_dmg / 100)
+                                                   (1 + crit_dmg / 100)) * (1 + bonus_dmg / 100)
     dmg2 = 1110
     hp1 -= dmg1
     if hp1 <= 0 and hp2:
