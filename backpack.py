@@ -1,7 +1,6 @@
 import pygame
 import sqlite3
 
-
 screen2 = pygame.display.set_mode((600, 400))
 pygame.init()
 
@@ -18,17 +17,18 @@ def display():
     screen2.blit(bg, (0, 0))
     font = pygame.font.Font("data/corbell.ttf", 15)
     font.bold = True
-    pygame.draw.rect(screen2, (255, 0, 0), (270, 370, 20, 20))
+    pygame.draw.rect(screen2, (255, 0, 0), (575, 60, 20, 20))
     text = font.render("1", True, (255, 255, 255))
-    screen2.blit(text, (280, 370))
+    screen2.blit(text, (585, 65))
     c = sqlite3.connect("Pokemon.db")
     cur = c.cursor()
     info = cur.execute("SELECT * FROM Collection").fetchall()
     if len(info) > 9:
-        pygame.draw.rect(screen2, (255, 0, 0), (310, 370, 20, 20))
+        pygame.draw.rect(screen2, (255, 0, 0), (575, 90, 20, 20))
         text = font.render("2", True, (255, 255, 255))
-        screen2.blit(text, (320, 370))
+        screen2.blit(text, (585, 95))
     show(info, 1)
+    t = 1
     running = True
     while running:
         for event in pygame.event.get():
@@ -36,11 +36,14 @@ def display():
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = event.pos
-                if 370 <= y <= 390:
-                    if 270 <= x <= 290:
-                        show(info, 1)
-                    elif 310 <= x <= 330 and len(info) >= 12:
-                        show(info, 2)
+                if 575 <= x <= 595:
+                    if 60 <= y <= 80:
+                        t = 1
+                    elif 90 <= y <= 110 and len(info) >= 12:
+                        t = 2
+        bg = pygame.image.load("data/battle-background.png")
+        screen2.blit(bg, (0, 0))
+        show(info, t)
         pygame.display.flip()
     pygame.quit()
 
@@ -51,9 +54,12 @@ def show(info, t):
     font = pygame.font.Font("data/corbell.ttf", 15)
     font.bold = True
     if t == 1:
-        pygame.draw.rect(screen2, (148, 19, 19), (270, 370, 20, 20))
+        pygame.draw.rect(screen2, (255, 0, 0), (575, 60, 20, 20))
         text = font.render("1", True, (255, 255, 255))
-        screen2.blit(text, (280, 370))
+        screen2.blit(text, (585, 65))
+        pygame.draw.rect(screen2, (148, 19, 19), (575, 90, 20, 20))
+        text = font.render("2", True, (255, 255, 255))
+        screen2.blit(text, (585, 95))
         for i in range(len(info) // 3):
             image = pygame.image.load(f"data/{info[i * 3][0]}.png")
             screen2.blit(image, (20, 20 + i * 125))
@@ -78,7 +84,12 @@ def show(info, t):
                 f"{info[i + len(info) // 3 * 3][0]} ({info[i + len(info) // 3 * 3][1]})", True, (227, 8, 0))
             screen2.blit(text, (20 + 200 * i, 120 + len(info) // 3 * 125))
     else:
-
+        pygame.draw.rect(screen2, (148, 19, 19), (575, 60, 20, 20))
+        text = font.render("1", True, (255, 255, 255))
+        screen2.blit(text, (585, 65))
+        pygame.draw.rect(screen2, (255, 0, 0), (575, 90, 20, 20))
+        text = font.render("2", True, (255, 255, 255))
+        screen2.blit(text, (585, 95))
         for i in range((len(info) - 9) // 3):
             image = pygame.image.load(f"data/{info[i * 3 + 9][0]}.png")
             screen2.blit(image, (20, 20 + i * 125))
