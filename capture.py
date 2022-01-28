@@ -139,10 +139,6 @@ def battle(pokemon1, pokemon2, region, pokeball):
                 if 450 < x < 530 and 220 < y < 260:
                     res = attack(pokemon1, pokemon2, region)
                     logger.debug(f"hp1 = {hp1}, hp2 = {hp2}")
-                    logger.debug(
-                        f"total damage: 1 - {min(10000, 10000 - hp1)}, 2 - {min(10000, 10000 - hp2)}")
-                    logger.debug(f"damage bar length: 1 - {min(10000, 10000 - hp1) / 10000 * 90}, "
-                                 f"2 - {min(10000, 10000 - hp2) / 10000 * 90}")
                     pygame.draw.rect(screen1, (92, 215, 90),
                                      (int(490 - min(10000, 10000 - hp1) / 10000 * 90), 90,
                                       int(min(10000, 10000 - hp1) / 10000 * 90), 5))
@@ -314,13 +310,15 @@ def attack(pokemon1, pokemon2, region):
         clock.tick(500)
     all_sprites.remove(sprite1)
     all_sprites.remove(sprite2)
-    dmg1 = (atk if randrange(100) > crit_rate else atk *
-                                                   (1 + crit_dmg / 100)) * (1 + bonus_dmg / 100)
-    dmg2 = 1110
+    dmg1 = (atk if randrange(100) > crit_rate else atk * (1 + crit_dmg / 100)) * (1 + bonus_dmg / 100)
+    dmg2 = 1100
+    logger.debug(f"pokemon1 dealt {dmg1} dmg, pokemon2 dealt {dmg2} dmg")
     hp1 -= dmg1
-    if hp1 <= 0 and hp2:
-        return 1
     hp2 -= dmg2
-    if hp1 and hp2 <= 0:
+    if hp1 <= 0 and hp2 > 0:
+        logger.debug(f"Win; hp1 = {hp1}, hp2 = {hp2}")
+        return 1
+    if hp2 <= 0:
+        logger.debug(f"Lose; hp1 = {hp1}, hp2 = {hp2}")
         return -1
     return 0

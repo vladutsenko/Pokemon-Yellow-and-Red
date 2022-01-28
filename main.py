@@ -8,6 +8,7 @@ from help import info
 from shop import buy
 
 all_sprites = pygame.sprite.Group()
+name = ""
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -73,6 +74,46 @@ class Field:
 
 
 field = Field(10, 11)
+
+
+class InputBox:
+    def __init__(self, x, y, w, h, text=''):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.color = pygame.Color((255, 0, 0))
+        self.text = text
+        self.font = pygame.font.Font("data/corbell.ttf", 35)
+        self.font.bold = True
+        self.text_render = self.font.render(text, True, self.color)
+        self.active = False
+        self.done = False
+
+    def handle_event(self, event):
+        global name
+        if event.type == pygame.MOUSEBUTTONDOWN and not self.done:
+            if self.rect.collidepoint(event.pos):
+                self.active = not self.active
+            else:
+                self.active = False
+            self.color = pygame.Color((0, 255, 0)) if self.active else pygame.Color((255, 0, 0))
+        if event.type == pygame.KEYDOWN and not self.done:
+            if self.active:
+                if event.key == pygame.K_RETURN:
+                    name = self.text
+                    self.done = True
+                    self.color = pygame.Color((0, 0, 255))
+                elif event.key == pygame.K_BACKSPACE:
+                    self.text = self.text[:-1]
+                else:
+                    self.text += event.unicode
+                self.text_render = self.font.render(self.text, True, self.color)
+
+    def update(self):
+        width = max(200, self.text_render.get_width() + 10)
+        self.rect.w = width
+
+    def draw(self, screen):
+        screen.blit(self.text_render, (self.rect.x + 5, self.rect.y + 5))
+        pygame.draw.rect(screen, self.color, self.rect, 2)
 
 
 def background(region):
@@ -164,15 +205,7 @@ def finish():
     hello()
 
 
-def hello():
-    pygame.mixer.init()
-    pygame.mixer.music.load('data/choose_region.mp3')
-    pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(0.2)
-    pygame.init()
-    pygame.display.set_caption('Pokemon Yellow and Red')
-    size = 900, 600
-    screen = pygame.display.set_mode(size)
+def redraw(screen):
     bg = pygame.image.load("data/Pallet-Town.png")
     screen.blit(bg, (0, 0))
     intro_text = ["      ВЫБЕРИТЕ РЕГИОН", "",
@@ -182,7 +215,6 @@ def hello():
     screen.blit(image, (10, 295))
     screen.blit(image, (10, 370))
     font = pygame.font.Font("data/corbell.ttf", 60)
-
     font.bold = True
     text_coord = 50
     for line in intro_text:
@@ -193,20 +225,41 @@ def hello():
         intro_rect.x = 10
         text_coord += intro_rect.height + 5
         screen.blit(string_rendered, intro_rect)
+    font = pygame.font.Font("data/corbell.ttf", 30)
+    font.bold = True
+    text = font.render("Введите свое имя:", True, (0, 0, 255))
+    screen.blit(text, (600, 260))
+
+
+def hello():
+    pygame.mixer.init()
+    pygame.mixer.music.load('data/choose_region.mp3')
+    pygame.mixer.music.play(-1)
+    pygame.mixer.music.set_volume(0.2)
+    pygame.init()
+    pygame.display.set_caption('Pokemon Yellow and Red')
+    size = 900, 600
+    screen = pygame.display.set_mode(size)
+    redraw(screen)
+    input_box = InputBox(600, 300, 50, 40)
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 exit(0)
-            if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90:
+            if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90 and input_box.done:
                 if 200 <= list(event.pos)[1] <= 280:
                     basic("Kanto")
                 elif 290 <= list(event.pos)[1] <= 370:
                     basic("Johto")
                 elif 380 <= list(event.pos)[1] <= 460:
                     basic("Hoenn")
-            pygame.display.flip()
+            input_box.handle_event(event)
+        input_box.update()
+        redraw(screen)
+        input_box.draw(screen)
+        pygame.display.flip()
 
 
 def basic(region, x=10, y=20, i=0, j=0):
