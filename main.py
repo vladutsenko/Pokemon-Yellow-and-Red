@@ -172,6 +172,7 @@ def background(region):
 
 
 def finish():
+    global name
     pygame.display.set_caption("Вы нашли всех покемонов")
     pygame.init()
     screen0 = pygame.display.set_mode((600, 313))
@@ -195,8 +196,7 @@ def finish():
         screen0.blit(image, (0, 0))
         font = pygame.font.Font("data/corbell.ttf", 20)
         font.bold = True
-        text = font.render(
-            "Вы поймали всех покемонов в этом регионе!", True, (227, 8, 0))
+        text = font.render(f"{name}, ты поймал всех покемонов в этом регионе!", True, (227, 8, 0))
         screen0.blit(text, (10, 10))
         all_sprites.draw(screen0)
         pygame.display.flip()
@@ -232,6 +232,7 @@ def redraw(screen):
 
 
 def hello():
+    global name
     pygame.mixer.init()
     pygame.mixer.music.load('data/choose_region.mp3')
     pygame.mixer.music.play(-1)
@@ -249,6 +250,7 @@ def hello():
                 running = False
                 exit(0)
             if event.type == pygame.MOUSEBUTTONDOWN and 10 <= list(event.pos)[0] <= 90 and input_box.done:
+                info(name)
                 if 200 <= list(event.pos)[1] <= 280:
                     basic("Kanto")
                 elif 290 <= list(event.pos)[1] <= 370:
@@ -263,6 +265,7 @@ def hello():
 
 
 def basic(region, x=10, y=20, i=0, j=0):
+    global name
     size = 900, 600
     screen = pygame.display.set_mode(size)
     background(region)
@@ -376,7 +379,7 @@ def basic(region, x=10, y=20, i=0, j=0):
                 basic(region, pos_x, pos_y, i, j)
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     480 <= list(event.pos)[1] <= 580:
-                info()
+                info(name)
                 basic(region, pos_x, pos_y, i, j)
             elif event.type == pygame.MOUSEBUTTONDOWN and 730 <= list(event.pos)[0] <= 1000 and \
                     425 <= list(event.pos)[1] <= 470 and incense > 0:
